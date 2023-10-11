@@ -1,4 +1,8 @@
-const cryptomonedasSelect = document.querySelector('#criptomonedas')
+const criptomonedasSelect = document.querySelector('#criptomonedas')
+
+const obtenerCriptomonedas = criptomonedas => new Promise(resolve => {
+    resolve(criptomonedas)
+})
 
 document.addEventListener('DOMContentLoaded', () => {
     consultarCriptoMonedas()
@@ -9,5 +13,17 @@ function consultarCriptoMonedas() {
 
     fetch(url)
         .then(respuesta => respuesta.json())
-        .then(resultado => console.log(resultado))
+        .then(resultado => obtenerCriptomonedas(resultado.Data))
+        .then(criptomonedas => selectCriptomonedas(criptomonedas))
+}
+
+function selectCriptomonedas(criptomonedas) {
+    criptomonedas.forEach(cripto => {
+        const { FullName, Name } = cripto.CoinInfo
+
+        const option = document.createElement('option')
+        option.value = Name;
+        option.textContent = FullName;
+        criptomonedasSelect.appendChild(option)
+    })
 }
