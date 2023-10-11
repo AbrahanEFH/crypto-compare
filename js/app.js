@@ -1,7 +1,16 @@
 const criptomonedasSelect = document.querySelector('#criptomonedas')
+const monedaSelect = document.querySelector('#moneda')
+const formulario = document.querySelector('#formulario')
+
+const objBusqueda = {
+    moneda: '',
+    criptomoneda: ''
+}
 
 const obtenerCriptomonedas = criptomonedas => new Promise(resolve => {
     resolve(criptomonedas)
+
+    formulario.addEventListener('submit', submitFormulario)
 })
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -26,4 +35,10 @@ function selectCriptomonedas(criptomonedas) {
         option.textContent = FullName;
         criptomonedasSelect.appendChild(option)
     })
+}
+
+function submitFormulario(e) {
+    e.preventDefault()
+
+
 }
