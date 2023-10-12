@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     formulario.addEventListener('submit', submitFormulario)
 
     criptomonedasSelect.addEventListener('change', leerValor)
+    monedaSelect.addEventListener('change', leerValor)
 })
 
 function consultarCriptoMonedas() {
@@ -56,6 +57,8 @@ function submitFormulario(e) {
         return
     }
 
+    // Consultar la API con los resultados
+    consultarAPI();
 }
 
 function mostrarAlerta(msg) {
@@ -76,4 +79,16 @@ function mostrarAlerta(msg) {
 
     }
 
+}
+
+function consultarAPI() {
+    const { moneda, criptomoneda } = objBusqueda
+
+    const url = `https://min-api.cryptocompare.com/data/price?fsym=${criptomoneda}&tsyms=${moneda}`
+
+    fetch(url)
+        .then(respuesta => respuesta.json())
+        .then(cotizacion => {
+            console.log(cotizacion)
+        })
 }
