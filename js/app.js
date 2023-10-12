@@ -96,6 +96,8 @@ function consultarAPI() {
 
 function mostrarCotizacionHTML(cotizacion) {
 
+    limpiarHTML()
+
     const { PRICE, HIGHDAY, LOWDAY, CHANGEPCT24HOUR, LASTUPDATE } = cotizacion
 
     const precio = document.createElement('p')
@@ -120,4 +122,10 @@ function mostrarCotizacionHTML(cotizacion) {
     resultado.appendChild(precioBajo)
     resultado.appendChild(ultimasHoras)
     resultado.appendChild(ultimaActualizacion)
+}
+
+function limpiarHTML() {
+    while (resultado.firstChild) {
+        resultado.removeChild(resultado.firstChild)
+    }
 }
