@@ -1,6 +1,7 @@
 const criptomonedasSelect = document.querySelector('#criptomonedas')
 const monedaSelect = document.querySelector('#moneda')
 const formulario = document.querySelector('#formulario')
+const resultado = document.querySelector('#resultado')
 
 const objBusqueda = {
     moneda: '',
@@ -43,7 +44,7 @@ function selectCriptomonedas(criptomonedas) {
 
 function leerValor(e) {
     objBusqueda[e.target.name] = e.target.value
-    console.log(objBusqueda)
+
 }
 
 function submitFormulario(e) {
@@ -84,11 +85,30 @@ function mostrarAlerta(msg) {
 function consultarAPI() {
     const { moneda, criptomoneda } = objBusqueda
 
-    const url = `https://min-api.cryptocompare.com/data/price?fsym=${criptomoneda}&tsyms=${moneda}`
+    const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda}`
 
     fetch(url)
         .then(respuesta => respuesta.json())
         .then(cotizacion => {
-            console.log(cotizacion)
+            mostrarCotizacionHTML(cotizacion.DISPLAY[criptomoneda][moneda])
         })
+}
+
+function mostrarCotizacionHTML(cotizacion) {
+
+    const { PRICE, HIGHDAY, LOWDAY, CHANGEPCT24HOUR, LASTUPDATE } = cotizacion
+
+    const precio = document.createElement('p')
+    precio.classList.add('precio')
+    precio.innerHTML = `El Precio es: <span>${PRICE}</span>`
+
+    const precioAlto = document.createElement('p')
+    precioAlto.innerHTML = `<p>Precio más alto del día <span>${HIGHDAY}</span></p>`
+
+    const precioBajo = document.createElement('p')
+    precioBajo.innerHTML = `<p>Precio más bajo del día <span>${LOWDAY}</span></p>`
+
+    resultado.appendChild(precio)
+    resultado.appendChild(precioAlto)
+    resultado.appendChild(precioBajo)
 }
